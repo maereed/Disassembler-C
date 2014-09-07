@@ -24,11 +24,11 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
       switch (funct) {
         case 0x00: printf("%8x: sll %s, %s, %d\n", pc, reg[rd], reg[rs], shamt); break; /* sll RD, RS, shift5*/
         case 0x03: printf("%8x: sra %s, %s, %d\n", pc, reg[rd], reg[rs], shamt); break; /* sra */
-        case 0x08: printf("%8x: jr %s", pc, reg[rs]); break;/* jr */
+        case 0x08: printf("%8x: jr %s\n", pc, reg[rs]); break;/* jr */
         case 0x10: printf("%8x: mfhi %s\n", pc, reg[rd]); break; /* mfhi */
         case 0x12: printf("%8x: mflo %s\n", pc, reg[rd]); break;
-        case 0x18: printf("%8x: mult %s, %s\n", pc, reg[rs], reg[rt]);/* mult */ break;
-        case 0x1a: /* div */ break;
+        case 0x18: printf("%8x: mult %s, %s\n", pc, reg[rs], reg[rt]); break; /* mult */ 
+        case 0x1a: printf("%8x: div %s, %s\n", pc, reg[rs], reg[rt]); break;/* div */
         case 0x21: printf("%8x: addu %s, %s, %s\n", pc, reg[rd], reg[rs], reg[rt]); break;
         case 0x23: /* subu */ break;
         case 0x2a: /* slt */ break;
