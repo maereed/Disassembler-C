@@ -30,22 +30,22 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
         case 0x18: printf("%8x: mult %s, %s\n", pc, reg[rs], reg[rt]); break; /* mult */ 
         case 0x1a: printf("%8x: div %s, %s\n", pc, reg[rs], reg[rt]); break;/* div */
         case 0x21: printf("%8x: addu %s, %s, %s\n", pc, reg[rd], reg[rs], reg[rt]); break;
-        case 0x23: /* subu */ break;
-        case 0x2a: /* slt */ break;
+        case 0x23: printf("%8x: subu %s, %s, %s\n", pc, reg[rd], reg[rs], reg[rt]); break;/* subu */
+        case 0x2a: printf("%8x: slt %s, %s, %s\n", pc, reg[rd], reg[rs], reg[rt]); break;/* slt */
         default: printf("%8x: unimplemented\n", pc);
       }
       break;
-    case 0x02: /* j */ break;
+    case 0x02: /* j */ 
     case 0x03: printf("%8x: jal %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;
-    case 0x04: /* beq */ break;
-    case 0x05: /* bne */ break;
-    case 0x08: /* addi */ break;
-    case 0x09: /* addiu */ break;
-    case 0x0c: /* andi */ break;
+    case 0x04: /* beq */ 
+    case 0x05: /* bne */ 
+    case 0x08: /* addi */ 
+    case 0x09: /* addiu */ 
+    case 0x0c: /* andi */ 
     case 0x0f: printf("%8x: lui %s, %d\n", pc, reg[rt], simm); break;
     case 0x1a: printf("%8x: trap %x\n", pc, addr); break;
-    case 0x23: /* lw */ break;
-    case 0x2b: /* sw */ break;
+    case 0x23: /* lw */ 
+    case 0x2b: /* sw */ 
     default: printf("%8x: unimplemented\n", pc);
   }
 }
