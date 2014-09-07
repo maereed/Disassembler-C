@@ -14,15 +14,15 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
   rt = (instr >> 16) & 0x1f;/* start at bit 16 and read in 5 bits */
   rd = (instr >> 11) & 0x1f;/* given */
   shamt = (instr >> 6) & 0x1f;/* start at bit 6 and read in 5 bits for shift amount */
-  funct = (instr >> 0) & 0x3f;/* start at bit 0 and read in 6 bits */
-  uimm = //((signed)uimm << 16) >> 16;/* unsigned immediate... */
+  funct = (instr) & 0x3f;/* start at bit 0 and read in 6 bits */
+  uimm = (instr) & 0xffff);/* unsigned immediate... */
   simm = ((signed)uimm << 16) >> 16;
-  addr = (instr >> 0) & 0x1a;/* address field for jumps start reading at 0 and grab 26 bits -- 11010 */
+  addr = (instr >> 0) & 0x3ffffff;/* address field for jumps start reading at 0 and grab 26 bits -- 11010 */
 
   switch (opcode) {
     case 0x00:
       switch (funct) {
-        case 0x00: printf("%8x: sll %s, %s(%s\n)", pc, reg[rd], reg[shamt], reg[rs]);/* sll */ break;
+        case 0x00: printf("%8x: sll %s, %s(%s)\n", pc, reg[rd], reg[shamt], reg[rs]);/* sll */ break;
         case 0x03: /* sra */ break;
         case 0x08: /* jr */ break;
         case 0x10: /* mfhi */ break;
