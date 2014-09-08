@@ -40,7 +40,7 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
     case 0x04: printf("%8x: beq %x\n", pc, ((pc+4) & 0xf0000000) + addr/4); break;/* beq */ 
     case 0x05: /* bne */ 
     case 0x08: /* addi */ 
-    case 0x09: /* addiu */ 
+    case 0x09: printf("%8x: addi %s, %s, %d\n", pc, reg[rd], reg[rs], simm);/* addiu */ 
     case 0x0c: /* andi */ 
     case 0x0f: printf("%8x: lui %s, %d\n", pc, reg[rt], simm); break;
     case 0x1a: printf("%8x: trap %x\n", pc, addr); break;
