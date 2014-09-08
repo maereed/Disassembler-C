@@ -23,7 +23,7 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
     case 0x00:
       switch (funct) {
         case 0x00: printf("%8x: sll %s, %s, %d\n", pc, reg[rd], reg[rs], shamt); break; /* sll RD, RS, shift5*/
-        case 0x03: printf("%8x: sra %s, %s, %d\n", pc, reg[rd], reg[rs], shamt); break; /* sra */
+        case 0x03: printf("%8x: sra %s, %s, %d\n", pc, reg[rd], reg[rs], shamt); break; /* sra RD, RS, shift5*/
         case 0x08: printf("%8x: jr %s\n", pc, reg[rs]); break;/* jr */
         case 0x10: printf("%8x: mfhi %s\n", pc, reg[rd]); break; /* mfhi */
         case 0x12: printf("%8x: mflo %s\n", pc, reg[rd]); break;
@@ -37,7 +37,7 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
       break;
     case 0x02: printf("%8x: j %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;/* j */ 
     case 0x03: printf("%8x: jal %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;
-    case 0x04: printf("%8x: beq %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;/* beq */ 
+    case 0x04: printf("%8x: beq %x\n", pc, ((pc+4) & 0xf0000000) + addr/4); break;/* beq */ 
     case 0x05: /* bne */ 
     case 0x08: /* addi */ 
     case 0x09: /* addiu */ 
