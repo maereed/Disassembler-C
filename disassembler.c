@@ -37,7 +37,7 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
       break;
     case 0x02: printf("%8x: j %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;/* j */ 
     case 0x03: printf("%8x: jal %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;
-    case 0x04: /* beq */ 
+    case 0x04: printf("%8x: beq %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;/* beq */ 
     case 0x05: /* bne */ 
     case 0x08: /* addi */ 
     case 0x09: /* addiu */ 
