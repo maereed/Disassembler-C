@@ -17,7 +17,7 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
   funct = (instr) & 0x3f;/* start at bit 0 and read in 6 bits */
   uimm = (instr) & 0xffff;/* unsigned immediate start reading at bit 0 and read 16 bits no need to convert */
   simm = ((signed)uimm << 16) >> 16;/* given */
-  addr = (instr >> 0) & 0x3ffffff;/* address field for jumps start reading at 0 and grab 26 bits -- 11010 */
+  addr = (instr >> 0) & 0x3ffffff;/* address field for jumps start reading at 0 and grab 26 bits */
 
   switch (opcode) {
     case 0x00:
@@ -27,7 +27,7 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
         case 0x08: printf("%8x: jr %s\n", pc, reg[rs]); break;/* jr */
         case 0x10: printf("%8x: mfhi %s\n", pc, reg[rd]); break; /* mfhi */
         case 0x12: printf("%8x: mflo %s\n", pc, reg[rd]); break;
-        case 0x18: printf("%8x: mult %s, %s\n", pc, reg[rs], reg[rt]); break; /* mult */ 
+        case 0x18: printf("%8x: mult %s, %s\n", pc, reg[rs], reg[rt]); break; /* mult */
         case 0x1a: printf("%8x: div %s, %s\n", pc, reg[rs], reg[rt]); break;/* div */
         case 0x21: printf("%8x: addu %s, %s, %s\n", pc, reg[rd], reg[rs], reg[rt]); break;
         case 0x23: printf("%8x: subu %s, %s, %s\n", pc, reg[rd], reg[rs], reg[rt]); break;/* subu */
@@ -35,17 +35,17 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
         default: printf("%8x: unimplemented\n", pc);
       }
       break;
-    case 0x02: printf("%8x: j %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;/* j */ 
+    case 0x02: printf("%8x: j %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;/* j */
     case 0x03: printf("%8x: jal %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;
-    case 0x04: printf("%8x: beq %s, %s, %x\n", pc, reg[rs], reg[rt], ((pc+4) & 0xffff) + addr*4); break;/* beq */ 
-    case 0x05: /* bne */ 
-    case 0x08: printf("%8x: addi %s, %s, %d\n", pc, reg[rt], reg[rs], simm);break;/* addi */ 
-    case 0x09: printf("%8x: addiu %s, %s, %d\n", pc, reg[rt], reg[rs], simm);break;/* addiu */ 
-    case 0x0c: printf("%8x: andi %s, %s, %d\n", pc, reg[rt], reg[rs], uimm);break;/* andi */ 
+    case 0x04: printf("%8x: beq %s, %s, %x\n", pc, reg[rs], reg[rt], ((pc+4) + ((simm)*4))); break;/* beq */
+    case 0x05: break;/* bne */
+    case 0x08: printf("%8x: addi %s, %s, %d\n", pc, reg[rt], reg[rs], simm);break;/* addi */
+    case 0x09: printf("%8x: addiu %s, %s, %d\n", pc, reg[rt], reg[rs], simm);break;/* addiu */
+    case 0x0c: printf("%8x: andi %s, %s, %d\n", pc, reg[rt], reg[rs], uimm);break;/* andi */
     case 0x0f: printf("%8x: lui %s, %d\n", pc, reg[rt], simm); break;
     case 0x1a: printf("%8x: trap %x\n", pc, addr); break;
-    case 0x23: /* lw */ 
-    case 0x2b: /* sw */ 
+    case 0x23: printf("%8x: lw %s, %x(%s)\n", pc, reg[rt], simm, reg[rs]); break;/* lw */
+    case 0x2b: break;/* sw */
     default: printf("%8x: unimplemented\n", pc);
   }
 }
