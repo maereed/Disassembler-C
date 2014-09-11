@@ -37,15 +37,15 @@ static void Decode(int pc, int instr)  // do not make any changes outside of thi
       break;
     case 0x02: printf("%8x: j %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;/* j */
     case 0x03: printf("%8x: jal %x\n", pc, ((pc+4) & 0xf0000000) + addr*4); break;
-    case 0x04: printf("%8x: beq %s, %s, %x\n", pc, reg[rs], reg[rt], ((pc+4) + ((simm)*4))); break;/* beq */
-    case 0x05: printf("%8x: bne %s, %s, %x\n", pc, reg[rs], reg[rt], ((pc+4) + ((simm)*4)));break;/* bne */
-    case 0x08: printf("%8x: addi %s, %s, %d\n", pc, reg[rt], reg[rs], simm);break;/* addi */
-    case 0x09: printf("%8x: addiu %s, %s, %d\n", pc, reg[rt], reg[rs], simm);break;/* addiu */
-    case 0x0c: printf("%8x: andi %s, %s, %d\n", pc, reg[rt], reg[rs], uimm);break;/* andi */
+    case 0x04: printf("%8x: beq %s, %s, %x\n", pc, reg[rs], reg[rt], ((pc+4) + ((simm)*4))); break;/* beq if(R[rs]==R[rt]) PC=PC+4+BranchAddr*/
+    case 0x05: printf("%8x: bne %s, %s, %x\n", pc, reg[rs], reg[rt], ((pc+4) + ((simm)*4))); break;/* bne f(R[rs]!=R[rt]) PC=PC+4+BranchAddr (multiply by 4 to shift for the 2 zeros at the end same for beq)*/
+    case 0x08: printf("%8x: addi %s, %s, %d\n", pc, reg[rt], reg[rs], simm); break;/* addi R[rt]=R[rs]+SignExtImm*/
+    case 0x09: printf("%8x: addiu %s, %s, %d\n", pc, reg[rt], reg[rs], simm); break;/* addiu R[rt]=R[rs]+SignExtImm*/
+    case 0x0c: printf("%8x: andi %s, %s, %d\n", pc, reg[rt], reg[rs], uimm); break;/* andi R[rt]=R[rs]&ZeroExtImm*/
     case 0x0f: printf("%8x: lui %s, %d\n", pc, reg[rt], simm); break;
     case 0x1a: printf("%8x: trap %x\n", pc, addr); break;
-    case 0x23: printf("%8x: lw %s, %d(%s)\n", pc, reg[rt], simm, reg[rs]); break;/* lw */
-    case 0x2b: printf("%8x: sw %s, %d(%s)\n", pc, reg[rt], simm, reg[rs]);break;/* sw */
+    case 0x23: printf("%8x: lw %s, %d(%s)\n", pc, reg[rt], simm, reg[rs]); break;/* lw R[rt]=M[R[rs]+SignExtImm]*/
+    case 0x2b: printf("%8x: sw %s, %d(%s)\n", pc, reg[rt], simm, reg[rs]); break;/* sw M[R[rs]+SignExtImm]=R[rt]*/
     default: printf("%8x: unimplemented\n", pc);
   }
 }
@@ -56,7 +56,7 @@ static int Convert(unsigned int x)
 }
 
 int main(int argc, char *argv[])
-{
+{a
   int c, count, start, little_endian, *instruction;
   FILE *f;
 
